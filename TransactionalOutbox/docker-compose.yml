@@ -1,0 +1,78 @@
+﻿services:
+  # API GATEWAY
+  transactional.outbox.apigateway:
+    image: transactional.outbox.apigateway
+    container_name: transactional.outbox.apigateway
+    build:
+      context: .
+      dockerfile: TransactionalOutbox.ApiGateway/Dockerfile
+    ports:
+      - '9100:8080'
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+  
+  # MESSAGE QUEUE
+  transactional.outbox.mq:
+    image: rabbitmq:3-management-alpine
+    container_name: transactional.outbox.mq
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://transactional.outbox.mq:5672" ]
+      interval: 20s
+      timeout: 15s
+      retries: 5
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./.docker/rabbitmq/log/:/var/log/rabbitmq
+
+  # FLIGHTS MICROSERVICE
+  transactional.outbox.flights.service:
+    image: transactional.outbox.flights.service
+    container_name: transactional.outbox.flights.service
+    build:
+      context: .
+      dockerfile: TransactionalOutbox.Microservices/FlightsService/Dockerfile
+    ports:
+      - '8600:8080'
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      transactional.outbox.flights.database:
+        condition: service_healthy
+      transactional.outbox.mq:
+        condition: service_started
+     
+  # PAYMENT MICROSERVICE
+  transactional.outbox.payment.service:
+    image: transactional.outbox.payment.service
+    container_name: transactional.outbox.payment.service
+    build:
+      context: .
+      dockerfile: TransactionalOutbox.Microservices/PaymentService/Dockerfile
+    ports:
+      - '8610:8080'
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      transactional.outbox.mq:
+        condition: service_started
+
+  # FLIGHTS DATABASE
+  transactional.outbox.flights.database:
+    image: postgres
+    container_name: transactional.outbox.flights.database
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 20s
+      timeout: 10s
+      retries: 4
+    ports:
+      - '8700:5432'
+    volumes:
+      - ./.docker/flights-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin

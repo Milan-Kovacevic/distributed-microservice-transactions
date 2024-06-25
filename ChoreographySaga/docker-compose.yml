@@ -1,0 +1,128 @@
+﻿services:
+  # API GATEWAY
+  choreography.saga.apigateway:
+    image: choreography.saga.apigateway
+    container_name: choreography.saga.apigateway
+    build:
+      context: .
+      dockerfile: ChoreographySaga.ApiGateway/Dockerfile
+    ports:
+      - '9000:8080'
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    
+  # MESSAGE QUEUE
+  choreography.saga.mq:
+    image: rabbitmq:3-management-alpine
+    container_name: choreography.saga.mq
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://choreography.saga.mq:5672" ]
+      interval: 20s
+      timeout: 15s
+      retries: 5
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./.docker/rabbitmq/log/:/var/log/rabbitmq
+
+  # ORDERS MICROSERVICE
+  choreography.saga.orders.service:
+    image: choreography.saga.orders.service
+    container_name: choreography.saga.orders.service
+    build:
+      context: .
+      dockerfile: ChoreographySaga.Microservices/ChoreographySaga.OrdersService/Dockerfile
+    ports:
+      - '8400:8080'
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      choreography.saga.orders.database:
+        condition: service_healthy
+  
+  # STOCKS MICROSERVICE  
+  choreography.saga.stocks.service:
+    image: choreography.saga.stocks.service
+    container_name: choreography.saga.stocks.service
+    build:
+      context: .
+      dockerfile: ChoreographySaga.Microservices/ChoreographySaga.StocksService/Dockerfile  
+    ports:
+      - '8410:8080'
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      choreography.saga.stocks.database:
+        condition: service_healthy
+        
+  # PAYMENT MICROSERVICE
+  choreography.saga.payment.service:
+    image: choreography.saga.payment.service
+    container_name: choreography.saga.payment.service
+    build:
+      context: .
+      dockerfile: ChoreographySaga.Microservices/ChoreographySaga.PaymentService/Dockerfile
+    ports:
+      - '8420:8080'
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      choreography.saga.payment.database:
+        condition: service_healthy
+  
+  # ORDERS DATABASE
+  choreography.saga.orders.database:
+    image: mysql
+    container_name: choreography.saga.orders.database
+    command: --default-authentication-plugin=caching_sha2_password
+    restart: always
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      interval: 40s
+      timeout: 10s
+      retries: 3
+    ports:
+      - '8500:3306'
+    volumes:
+      - ./.docker/orders-db:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=orders
+      - MYSQL_ROOT_PASSWORD=admin
+
+  # STOCKS DATABASE
+  choreography.saga.stocks.database:
+    image: postgres
+    container_name: choreography.saga.stocks.database
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 20s
+      timeout: 10s
+      retries: 4
+    ports:
+      - '8510:5432'
+    volumes:
+      - ./.docker/stocks-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+  
+  # PAYMENT DATABASE
+  choreography.saga.payment.database:
+    image: postgres
+    container_name: choreography.saga.payment.database
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 20s
+      timeout: 10s
+      retries: 4
+    ports:
+      - '8520:5432'
+    volumes:
+      - ./.docker/payment-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin

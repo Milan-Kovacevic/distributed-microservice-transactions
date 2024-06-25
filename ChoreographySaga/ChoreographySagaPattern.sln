@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChoreographySaga.ApiGateway", "ChoreographySaga.ApiGateway\ChoreographySaga.ApiGateway.csproj", "{2DC1C4B3-FE96-405B-BE2A-1ADA4803516B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microservices", "Microservices", "{6EBB66EE-84D7-4255-BF1F-26CC8E306FA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChoreographySaga.Contracts", "ChoreographySaga.Contracts\ChoreographySaga.Contracts.csproj", "{BBB8FF13-F2C3-4258-9928-7F88183E5FF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChoreographySaga.OrdersService", "ChoreographySaga.Microservices\ChoreographySaga.OrdersService\ChoreographySaga.OrdersService.csproj", "{DB825D88-A0A0-422E-ACDF-408E3D69EFCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChoreographySaga.StocksService", "ChoreographySaga.Microservices\ChoreographySaga.StocksService\ChoreographySaga.StocksService.csproj", "{AEC5A0E8-1709-4CB5-B1F1-BC75E927547B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChoreographySaga.PaymentService", "ChoreographySaga.Microservices\ChoreographySaga.PaymentService\ChoreographySaga.PaymentService.csproj", "{B0AF0B9E-5C43-419A-B671-49C5B7767611}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Composition", "Composition", "{DE1AD315-3BA2-4A26-A123-49D220D1699E}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DC1C4B3-FE96-405B-BE2A-1ADA4803516B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DC1C4B3-FE96-405B-BE2A-1ADA4803516B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DC1C4B3-FE96-405B-BE2A-1ADA4803516B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DC1C4B3-FE96-405B-BE2A-1ADA4803516B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBB8FF13-F2C3-4258-9928-7F88183E5FF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBB8FF13-F2C3-4258-9928-7F88183E5FF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBB8FF13-F2C3-4258-9928-7F88183E5FF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBB8FF13-F2C3-4258-9928-7F88183E5FF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB825D88-A0A0-422E-ACDF-408E3D69EFCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB825D88-A0A0-422E-ACDF-408E3D69EFCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB825D88-A0A0-422E-ACDF-408E3D69EFCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB825D88-A0A0-422E-ACDF-408E3D69EFCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEC5A0E8-1709-4CB5-B1F1-BC75E927547B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEC5A0E8-1709-4CB5-B1F1-BC75E927547B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEC5A0E8-1709-4CB5-B1F1-BC75E927547B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEC5A0E8-1709-4CB5-B1F1-BC75E927547B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0AF0B9E-5C43-419A-B671-49C5B7767611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0AF0B9E-5C43-419A-B671-49C5B7767611}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0AF0B9E-5C43-419A-B671-49C5B7767611}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0AF0B9E-5C43-419A-B671-49C5B7767611}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DB825D88-A0A0-422E-ACDF-408E3D69EFCF} = {6EBB66EE-84D7-4255-BF1F-26CC8E306FA5}
+		{AEC5A0E8-1709-4CB5-B1F1-BC75E927547B} = {6EBB66EE-84D7-4255-BF1F-26CC8E306FA5}
+		{B0AF0B9E-5C43-419A-B671-49C5B7767611} = {6EBB66EE-84D7-4255-BF1F-26CC8E306FA5}
+	EndGlobalSection
+EndGlobal

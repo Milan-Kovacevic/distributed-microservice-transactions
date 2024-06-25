@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoPhaseCommit.Coordinator", "TwoPhaseCommit.Coordinator\TwoPhaseCommit.Coordinator.csproj", "{D9162A65-A316-411D-9210-B5057EFF54E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoPhaseCommit.Participant", "TwoPhaseCommit.Participant\TwoPhaseCommit.Participant.csproj", "{D6BCB0C3-DF9E-488B-94D4-FBC451C233FE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Composition", "Composition", "{7CF6D32B-9F07-43DE-BE1F-7DF41B453561}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoPhaseCommit.Shared", "TwoPhaseCommit.Shared\TwoPhaseCommit.Shared.csproj", "{FED3E501-1CF1-4C89-B0AA-CC6ED36E8E31}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9162A65-A316-411D-9210-B5057EFF54E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9162A65-A316-411D-9210-B5057EFF54E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9162A65-A316-411D-9210-B5057EFF54E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9162A65-A316-411D-9210-B5057EFF54E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6BCB0C3-DF9E-488B-94D4-FBC451C233FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6BCB0C3-DF9E-488B-94D4-FBC451C233FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6BCB0C3-DF9E-488B-94D4-FBC451C233FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6BCB0C3-DF9E-488B-94D4-FBC451C233FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FED3E501-1CF1-4C89-B0AA-CC6ED36E8E31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FED3E501-1CF1-4C89-B0AA-CC6ED36E8E31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FED3E501-1CF1-4C89-B0AA-CC6ED36E8E31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FED3E501-1CF1-4C89-B0AA-CC6ED36E8E31}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,45 @@
+﻿services:
+  twophasecommit.coordinator:
+    image: twophasecommit.coordinator
+    container_name: twophasecommit.coordinator
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - TransactionConfig__Participants__0=http://twophasecommit.participant:8080
+    ports:
+      - '5000:8080'
+    build:
+      context: .
+      dockerfile: TwoPhaseCommit.Coordinator/Dockerfile
+
+  twophasecommit.participant:
+    image: twophasecommit.participant
+    container_name: twophasecommit.participant
+    depends_on:
+      twophasecommit.participant.db:
+        condition: service_healthy
+    ports:
+      - '5100:8080'
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Database=Host=twophasecommit.participant.db;Port=5432;Database=twophasecommit;Username=postgres;Password=admin
+    build:
+      context: .
+      dockerfile: TwoPhaseCommit.Participant/Dockerfile
+    
+  twophasecommit.participant.db:
+    image: postgres
+    container_name: twophasecommit.participant.db
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    ports:
+      - '5101:5432'
+    volumes:
+      - ./.docker/participant.db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+    
